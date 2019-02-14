@@ -28,10 +28,21 @@ fi
 
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
-cd ~/clone
+# cd ~/clone
+cd wp-content/themes/$FOLDER_NAME
+
 composer install --prefer-dist  --no-interaction
 
 yarn build:production
+
+cd ../../..
+php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDERNAME
+php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
+
+# for some reason this command fails the first time, runs ok the second
+php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
+
+cd wp-content/themes/$FOLDER_NAME
 
 # Get official list of files/folders that are not meant to be on production if $EXCLUDE_LIST is not set.
 if [[ -z "${EXCLUDE_LIST}" ]];
@@ -56,48 +67,50 @@ done
 # Remove exclude-list file
 rm exclude-list.txt
 
+cd ../../../
+
 # Clone the WPEngine files to the deployment directory
 # if we are not force pushing our changes
-if [[ $CI_MESSAGE != *#force* ]]
-then
-    force=''
-    git clone git@git.wpengine.com:${repo}/${target_wpe_install}.git ~/deployment
-else
-    force='-f'
-    if [ ! -d "~/deployment" ]; then
-        mkdir ~/deployment
-        cd ~/deployment
-        git init
-    fi
-fi
+# if [[ $CI_MESSAGE != *#force* ]]
+# then
+#     force=''
+#     git clone git@git.wpengine.com:${repo}/${target_wpe_install}.git ~/deployment
+# else
+#     force='-f'
+#     if [ ! -d "~/deployment" ]; then
+#         mkdir ~/deployment
+#         cd ~/deployment
+#         git init
+#     fi
+# fi
 
 # If there was a problem cloning, exit
-if [ "$?" != "0" ] ; then
-    echo "Unable to clone ${repo}"
-    kill -SIGINT $$
-fi
+# if [ "$?" != "0" ] ; then
+#     echo "Unable to clone ${repo}"
+#     kill -SIGINT $$
+# fi
 
 # Move the gitignore file to the deployments folder
-cd ~/deployment
-wget --output-document=.gitignore https://raw.githubusercontent.com/blueshoon/codeship-ci-deployment/master/gitignore-template.txt
+# cd ~/deployment
+# wget --output-document=.gitignore https://raw.githubusercontent.com/blueshoon/codeship-ci-deployment/master/gitignore-template.txt
 
 # Delete plugin/theme if it exists, and move cleaned version into deployment folder
-rm -rf /wp-content/${PROJECT_TYPE}s/${REPO_NAME}
+# rm -rf /wp-content/${PROJECT_TYPE}s/${REPO_NAME}
 
 # Check to see if the wp-content directory exists, if not create it
-if [ ! -d "./wp-content" ]; then
-    mkdir ./wp-content
-fi
+# if [ ! -d "./wp-content" ]; then
+#     mkdir ./wp-content
+# fi
 # Check to see if the plugins directory exists, if not create it
-if [ ! -d "./wp-content/plugins" ]; then
-    mkdir ./wp-content/plugins
-fi
+# if [ ! -d "./wp-content/plugins" ]; then
+#     mkdir ./wp-content/plugins
+# fi
 # Check to see if the themes directory exists, if not create it
-if [ ! -d "./wp-content/themes" ]; then
-    mkdir ./wp-content/themes
-fi
+# if [ ! -d "./wp-content/themes" ]; then
+#     mkdir ./wp-content/themes
+# fi
 
-rsync -a ../clone/* ./wp-content/${PROJECT_TYPE}s/${REPO_NAME}
+# rsync -a ../clone/* ./wp-content/${PROJECT_TYPE}s/${REPO_NAME}
 
 # Stage, commit, and push to wpengine repo
 
