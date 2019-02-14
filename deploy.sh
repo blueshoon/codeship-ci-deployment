@@ -40,7 +40,7 @@ cd clone
 
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
-cd ..
+cd ../
 mv clone wp-content/themes/$FOLDER_NAME
 cd wp-content/themes/$FOLDER_NAME
 
@@ -49,7 +49,9 @@ composer install --prefer-dist  --no-interaction
 yarn
 yarn build:production
 
-cd ../../..
+cd ../../../
+
+phpenv local 7.2
 php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDERNAME
 php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 
