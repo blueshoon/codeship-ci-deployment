@@ -27,8 +27,8 @@ then
 fi
 
 # install node/yarn/
-nvm use stable
-npm install -g yarn
+# nvm use stable
+# npm install -g yarn
 
 # get buildin'
 yarn build:production
