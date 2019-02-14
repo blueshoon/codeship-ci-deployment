@@ -29,6 +29,7 @@ fi
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
 cd ~/clone
+composer install --prefer-dist  --no-interaction
 
 yarn build:production
 
