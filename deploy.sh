@@ -55,9 +55,9 @@ cd ../../../
 
 pwd
 
-echo "php -d memory_limit=512M ~/wp-cli.phar theme activate {$FOLDERNAME}"
+echo "php -d memory_limit=512M ~/wp-cli.phar theme activate {$FOLDER_NAME}"
 phpenv local 7.2
-php -d memory_limit=512M ~/wp-cli.phar theme activate $FOLDERNAME
+php -d memory_limit=512M ~/wp-cli.phar theme activate $FOLDER_NAME
 php -d memory_limit=512M ~/wp-cli.phar blade compile
 
 # for some reason this command fails the first time, runs ok the second
