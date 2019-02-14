@@ -30,7 +30,9 @@ fi
 # this directory is the default your git project is checked out into by Codeship.
 cd ~/clone
 
+cd ${REPO_NAME}
 yarn build:production
+cd ..
 
 # Get official list of files/folders that are not meant to be on production if $EXCLUDE_LIST is not set.
 if [[ -z "${EXCLUDE_LIST}" ]];
