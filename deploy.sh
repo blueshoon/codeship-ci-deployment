@@ -36,7 +36,7 @@ yarn build:production
 # Get official list of files/folders that are not meant to be on production if $EXCLUDE_LIST is not set.
 if [[ -z "${EXCLUDE_LIST}" ]];
 then
-    wget https://raw.githubusercontent.com/linchpin/wpengine-codeship-continuous-deployment/master/exclude-list.txt
+    wget https://raw.githubusercontent.com/blueshoon/codeship-ci-deployment/master/exclude-list.txt
 else
     # @todo validate proper url?
     wget ${EXCLUDE_LIST}
@@ -79,7 +79,7 @@ fi
 
 # Move the gitignore file to the deployments folder
 cd ~/deployment
-wget --output-document=.gitignore https://raw.githubusercontent.com/linchpin/wpengine-codeship-continuous-deployment/master/gitignore-template.txt
+wget --output-document=.gitignore https://raw.githubusercontent.com/blueshoon/codeship-ci-deployment/master/gitignore-template.txt
 
 # Delete plugin/theme if it exists, and move cleaned version into deployment folder
 rm -rf /wp-content/${PROJECT_TYPE}s/${REPO_NAME}
