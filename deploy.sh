@@ -51,7 +51,7 @@ yarn build:production
 
 echo "Finished building resources"
 
-cd ../../../
+cd ../../
 
 pwd
 
@@ -87,7 +87,7 @@ done
 # Remove exclude-list file
 rm exclude-list.txt
 
-cd ../../../
+cd ../../
 
 # Clone the WPEngine files to the deployment directory
 # if we are not force pushing our changes
