@@ -51,10 +51,11 @@ yarn build:production
 
 echo "Finished building resources"
 
-cd ../../
+cd ../../../
 
 pwd
 
+echo "php -d memory_limit=512M ~/wp-cli.phar theme activate {$FOLDERNAME}"
 phpenv local 7.2
 php -d memory_limit=512M ~/wp-cli.phar theme activate $FOLDERNAME
 php -d memory_limit=512M ~/wp-cli.phar blade compile
