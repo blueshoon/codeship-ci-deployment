@@ -30,7 +30,11 @@ fi
 # this directory is the default your git project is checked out into by Codeship.
 cd ~/clone
 
+
 cd ${REPO_NAME}
+npm install
+# or, if you prefer to use yarn
+yarn
 yarn build:production
 cd ..
 
