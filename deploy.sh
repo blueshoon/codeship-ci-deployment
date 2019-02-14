@@ -26,13 +26,27 @@ then
     repo=production
 fi
 
+cd ..
+
+# download copy of wp core - wp install is needed only in order to cache templates
+php -d memory_limit=512M ~/wp-cli.phar core download
+
+# db, user, and pw are all env vars provided by codeship
+php -d memory_limit=512M ~/wp-cli.phar config create --dbname=test --dbuser=root --dbpass=test
+php -d memory_limit=512M ~/wp-cli.phar core install --url=example.com --title=Example --admin_user=supervisor --admin_password=strongpassword --admin_email=info@example.com
+
+cd clone
+
+
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
-# cd ~/clone
+cd ..
+mv clone wp-content/themes/$FOLDER_NAME
 cd wp-content/themes/$FOLDER_NAME
 
 composer install --prefer-dist  --no-interaction
 
+yarn
 yarn build:production
 
 cd ../../..
