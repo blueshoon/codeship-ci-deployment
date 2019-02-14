@@ -26,6 +26,13 @@ then
     repo=production
 fi
 
+# install node/yarn/
+nvm use stable
+npm install -g yarn
+
+# get buildin'
+yarn build:production
+
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
 cd ~/clone
