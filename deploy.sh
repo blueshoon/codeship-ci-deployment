@@ -49,7 +49,11 @@ composer install --prefer-dist  --no-interaction
 yarn
 yarn build:production
 
+echo "Finished building resources"
+
 cd ../../../
+
+pwd
 
 phpenv local 7.2
 php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDERNAME
