@@ -4,7 +4,7 @@ yarn build:production
 # activate theme and build blade templates
 cd ../../..
 phpenv local 7.2
-php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDER_NAME
+php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDER_NAME/resources
 php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 
 # for some reason this command fails the first time, runs ok the second
