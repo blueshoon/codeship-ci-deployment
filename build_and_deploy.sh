@@ -1,6 +1,6 @@
 # Build
 yarn
-yarn run build:production
+yarn build:production
 # activate theme and build blade templates
 cd ../../..
 phpenv local 7.2
