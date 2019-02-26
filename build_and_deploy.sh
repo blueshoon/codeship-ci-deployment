@@ -1,3 +1,31 @@
+#!/bin/bash
+# If any commands fail (exit code other than 0) entire script exits
+set -e
+
+# Check for required environment variables and make sure they are setup
+: ${PROJECT_TYPE?"PROJECT_TYPE Missing"} # theme|plugin
+: ${WPE_INSTALL?"WPE_INSTALL Missing"}   # subdomain for wpengine install 
+: ${REPO_NAME?"REPO_NAME Missing"}       # repo name (Typically the folder name of the project)
+
+# Set repo based on current branch, by default master=production, develop=staging
+# @todo support custom branches
+
+target_wpe_install=${WPE_INSTALL}
+
+if [ "$CI_BRANCH" == "master" ]
+then
+    repo=production
+else
+    # repo=staging
+    repo=production
+fi
+
+if [[ "$CI_BRANCH" == "qa" && -n "$WPE_QA_INSTALL" ]]
+then
+    target_wpe_install=${WPE_QA_INSTALL}
+    repo=production
+fi
+
 # Build
 yarn
 yarn build:production
@@ -11,8 +39,14 @@ php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 
 # Deploy
-git add --all :/
-git commit -m "DEPLOYMENT"
-git push servers HEAD:master --force
-# If this is the first time you're running the deployment, you might try this next line instead in case you get a missing branch error:
-# git push servers HEAD:refs/heads/master --force
+echo "Add remote"
+
+git remote add ${repo} git@git.wpengine.com:${repo}/${target_wpe_install}.git
+
+git config --global user.email CI_COMMITTER_EMAIL
+git config --global user.name CI_COMMITTER_NAME
+git config core.ignorecase false
+git add --all
+git commit -am "Deployment to ${target_wpe_install} $repo by $CI_COMMITTER_NAME from $CI_NAME"
+
+git push ${force} ${repo} master
