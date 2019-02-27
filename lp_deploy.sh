@@ -100,7 +100,7 @@ rsync -a ../clone/* ./wp-content/${PROJECT_TYPE}s/${REPO_NAME}
 
 echo "Add remote"
 
-git remote add ${repo} git@git.wpengine.com:${repo}/${target_wpe_install}.git
+git remote add ${repo} git@git.wpengine.com:${repo}/${target_wpe_install}.git &> /dev/null
 
 git config --global user.email CI_COMMITTER_EMAIL
 git config --global user.name CI_COMMITTER_NAME
