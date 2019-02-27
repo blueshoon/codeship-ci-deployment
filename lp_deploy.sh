@@ -137,4 +137,4 @@ git config core.ignorecase false
 git add --all
 git commit -am "Deployment to ${target_wpe_install} $repo by $CI_COMMITTER_NAME from $CI_NAME"
 
-git push ${force} ${repo} master -vvv
+git push -o nolint ${force} ${repo} master -vvv
