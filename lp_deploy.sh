@@ -33,6 +33,7 @@ cd ~/clone
 # Build
 yarn
 yarn build:production
+cd
 
 # download copy of wp core - wp install is needed only in order to cache templates
 php -d memory_limit=768M ~/wp-cli.phar core download
