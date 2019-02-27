@@ -30,10 +30,14 @@ fi
 # this directory is the default your git project is checked out into by Codeship.
 cd ~/clone
 
+# Build
+yarn
+yarn build:production
+
 # Get official list of files/folders that are not meant to be on production if $EXCLUDE_LIST is not set.
 if [[ -z "${EXCLUDE_LIST}" ]];
 then
-    wget https://raw.githubusercontent.com/linchpin/wpengine-codeship-continuous-deployment/master/exclude-list.txt
+    wget https://raw.githubusercontent.com/blueshoon/codeship-ci-deployment/master/exclude-list.txt
 else
     # @todo validate proper url?
     wget ${EXCLUDE_LIST}
