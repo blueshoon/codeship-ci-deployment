@@ -50,15 +50,6 @@ cd wp-content/themes/$FOLDER_NAME
 phpenv local 7.2
 composer install --prefer-dist  --no-interaction
 
-# activate theme and build blade templates
-cd ../../..
-phpenv local 7.2
-php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDER_NAME/resources
-php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
-
-# for some reason this command fails the first time, runs ok the second
-php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
-
 # Get official list of files/folders that are not meant to be on production if $EXCLUDE_LIST is not set.
 if [[ -z "${EXCLUDE_LIST}" ]];
 then
@@ -81,6 +72,15 @@ done
 
 # Remove exclude-list file
 rm exclude-list.txt
+
+# activate theme and build blade templates
+cd ../../..
+phpenv local 7.2
+php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDER_NAME/resources
+php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
+
+# for some reason this command fails the first time, runs ok the second
+php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 
 # Clone the WPEngine files to the deployment directory
 # if we are not force pushing our changes
