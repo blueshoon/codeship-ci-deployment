@@ -28,7 +28,11 @@ fi
 
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
-# cd ~/clone
+cd ~/clone
+
+# Build
+yarn
+yarn build:production
 
 # download copy of wp core - wp install is needed only in order to cache templates
 php -d memory_limit=768M ~/wp-cli.phar core download
@@ -41,10 +45,6 @@ php -d memory_limit=768M ~/wp-cli.phar core install --url=example.com --title=Ex
 mkdir -p wp-content/themes/$FOLDER_NAME
 rsync -a ~/clone/* wp-content/themes/$FOLDER_NAME
 cd wp-content/themes/$FOLDER_NAME
-
-# Build
-yarn
-yarn build:production
 
 phpenv local 7.2
 composer install --prefer-dist  --no-interaction
