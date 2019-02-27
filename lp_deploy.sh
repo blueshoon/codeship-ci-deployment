@@ -28,11 +28,35 @@ fi
 
 # Begin from the ~/clone directory
 # this directory is the default your git project is checked out into by Codeship.
-cd ~/clone
+# cd ~/clone
+
+# download copy of wp core - wp install is needed only in order to cache templates
+php -d memory_limit=768M ~/wp-cli.phar core download
+
+# db, user, and pw are all env vars provided by codeship
+php -d memory_limit=768M ~/wp-cli.phar config create --dbname=test --dbuser=root --dbpass=test
+php -d memory_limit=768M ~/wp-cli.phar core install --url=example.com --title=Example --admin_user=supervisor --admin_password=strongpassword --admin_email=info@example.com
+
+# install modules
+mkdir -p wp-content/themes/$FOLDER_NAME
+rsync -a ~/clone/* wp-content/themes/$FOLDER_NAME
+cd wp-content/themes/$FOLDER_NAME
 
 # Build
 yarn
 yarn build:production
+
+phpenv local 7.2
+composer install --prefer-dist  --no-interaction
+
+# activate theme and build blade templates
+cd ../../..
+phpenv local 7.2
+php -d memory_limit=512M ~/wp-cli.phar --allow-root theme activate $FOLDER_NAME/resources
+php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
+
+# for some reason this command fails the first time, runs ok the second
+php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 
 # Get official list of files/folders that are not meant to be on production if $EXCLUDE_LIST is not set.
 if [[ -z "${EXCLUDE_LIST}" ]];
@@ -98,7 +122,7 @@ if [ ! -d "./wp-content/themes" ]; then
     mkdir ./wp-content/themes
 fi
 
-rsync -a ../clone/* ./wp-content/${PROJECT_TYPE}s/${REPO_NAME}
+rsync -a ~/wp-content/themes/$FOLDER_NAME/* ./wp-content/${PROJECT_TYPE}s/${REPO_NAME}
 
 # Stage, commit, and push to wpengine repo
 
