@@ -102,7 +102,7 @@ fi
 
 # Move the gitignore file to the deployments folder
 cd ~/deployment
-wget --output-document=.gitignore https://raw.githubusercontent.com/linchpin/wpengine-codeship-continuous-deployment/master/gitignore-template.txt
+wget --output-document=.gitignore https://raw.githubusercontent.com/blueshoon/codeship-ci-deployment/master/gitignore-template.txt
 
 # Delete plugin/theme if it exists, and move cleaned version into deployment folder
 rm -rf /wp-content/${PROJECT_TYPE}s/${REPO_NAME}
