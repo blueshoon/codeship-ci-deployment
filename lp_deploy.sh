@@ -30,11 +30,15 @@ fi
 # this directory is the default your git project is checked out into by Codeship.
 cd ~/clone
 
+
+# set up Font Awesome registry
+npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+npm config set "//npm.fontawesome.com/:_authToken" $FA_TOKEN
+
 # Build
 yarn
 yarn build:production
 cd
-
 # download copy of wp core - wp install is needed only in order to cache templates
 php -d memory_limit=768M ~/wp-cli.phar core download
 
