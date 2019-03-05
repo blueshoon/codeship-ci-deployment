@@ -16,8 +16,8 @@ if [ "$CI_BRANCH" == "master" ]
 then
     repo=production
 else
-    # repo=staging
-    repo=production
+    repo=staging
+    # repo=production
 fi
 
 if [[ "$CI_BRANCH" == "qa" && -n "$WPE_QA_INSTALL" ]]
