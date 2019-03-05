@@ -4,8 +4,8 @@ set -e
 
 # Check for required environment variables and make sure they are setup
 : ${PROJECT_TYPE?"PROJECT_TYPE Missing"} # theme|plugin
-: ${WPE_INSTALL?"WPE_INSTALL Missing"}   # subdomain for wpengine install 
-: ${REPO_NAME?"REPO_NAME Missing"}       # repo name (Typically the folder name of the project)
+: ${PROD_WPE_INSTALL?"PROD_WPE_INSTALL Missing"}   # subdomain for wpengine install 
+: ${STAGE_WPE_INSTALL?"STAGE_WPE_INSTALL Missing"}   # subdomain for wpengine install 
 
 # Set repo based on current branch, by default master=production, develop=staging
 # @todo support custom branches
