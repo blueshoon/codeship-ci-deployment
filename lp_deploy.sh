@@ -9,8 +9,9 @@ set -e
 
 # Set repo based on current branch, by default master=production, develop=staging
 # @todo support custom branches
-
 #repo is always production the git install determines stage/prod
+repo=production
+
 if [ "$CI_BRANCH" == "master" ]
 then
     target_wpe_install=${PROD_WPE_INSTALL}
