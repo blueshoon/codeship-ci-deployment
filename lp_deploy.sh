@@ -10,20 +10,12 @@ set -e
 # Set repo based on current branch, by default master=production, develop=staging
 # @todo support custom branches
 
-target_wpe_install=${WPE_INSTALL}
-
+#repo is always production the git install determines stage/prod
 if [ "$CI_BRANCH" == "master" ]
 then
-    repo=production
+    target_wpe_install=${PROD_WPE_INSTALL}
 else
-    # repo=production
-    repo=staging
-fi
-
-if [[ "$CI_BRANCH" == "qa" && -n "$WPE_QA_INSTALL" ]]
-then
-    target_wpe_install=${WPE_QA_INSTALL}
-    repo=production
+    target_wpe_install=${STAGE_WPE_INSTALL}
 fi
 
 # Begin from the ~/clone directory
@@ -91,7 +83,7 @@ php -d memory_limit=512M ~/wp-cli.phar --allow-root blade compile
 if [[ $CI_MESSAGE != *#force* ]]
 then
     force=''
-    git clone git@git.wpengine.com:${repo}/${target_wpe_install}.git ~/deployment
+    git clone git@git.wpengine.com:production/${target_wpe_install}.git ~/deployment
 else
     force='-f'
     if [ ! -d "~/deployment" ]; then
